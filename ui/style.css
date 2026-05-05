@@ -1,0 +1,278 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+:root {
+    /* Premium Paleta Dark & Glassmorphism */
+    --bg-color-main: #0B0F19; /* Background profundo premium */
+    --bg-color-glass: rgba(25, 30, 45, 0.6); /* Efeito translúcido */
+    --border-glass: rgba(255, 255, 255, 0.08); /* Borda envidraçada */
+    
+    /* Cores de Destaque */
+    --accent-color: #6366F1; /* Indigo que sobressai */
+    --accent-hover: #4F46E5;
+    
+    /* Tipografia */
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --fonte-principal: 'Inter', system-ui, -apple-system, sans-serif;
+    
+    /* Layout Variables (Flexíveis) */
+    --borda-raio-lg: 16px;
+    --borda-raio-md: 10px;
+    
+    /* Efeitos de Sombras Premium */
+    --sombra-elegante: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    --sombra-interna-brilho: inset 0 1px 0 0 rgba(255, 255, 255, 0.05); /* Simula o reflexo superior do vidro */
+    
+    /* Animações e Transições */
+    --transicao-suave: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* =========================================
+   Reset Global & Base Estilos
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Fundamental para grid/flex não quebrarem os tamanhos */
+}
+
+body {
+    background-color: var(--bg-color-main);
+    color: var(--text-primary);
+    font-family: var(--fonte-principal);
+    min-height: 100vh; /* Altura preenchida pro Flex funcionar */
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    
+    /* Brilho radial no background para dar profundidade de luz atrás dos vidros */
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.08), transparent 30%),
+        radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.08), transparent 30%);
+}
+
+/* =========================================
+   Navbar 
+   ========================================= */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 3rem;
+    
+    background: var(--bg-color-glass);
+    backdrop-filter: blur(12px); /* Desfoque do background real */
+    -webkit-backdrop-filter: blur(12px);
+    
+    border-bottom: 1px solid var(--border-glass);
+    box-shadow: var(--sombra-elegante);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-weight: 600;
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+    color: var(--text-primary);
+}
+
+.logo img {
+    height: 40px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.menu ul {
+    list-style: none;
+    display: flex;
+    gap: 2.5rem; /* Substitui uso de margens manuais */
+}
+
+.menu a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 0.95rem;
+    position: relative;
+    padding-bottom: 4px;
+    transition: var(--transicao-suave);
+}
+
+/* Efeito sublinhado animado no Menu */
+.menu a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--accent-color);
+    transition: var(--transicao-suave);
+}
+
+.menu a:hover { color: var(--text-primary); }
+.menu a:hover::after { width: 100%; }
+
+/* =========================================
+   App Layout (Pós-Header)
+   ========================================= */
+.app-container {
+    display: flex; /* Flexbox para colocar toolbar na esquerda e canvas na direita */
+    flex: 1; /* Preenche a altura restante entre navbar e fim da tela */
+    padding: 2rem;
+    gap: 2rem; /* Espaçamento entre as divisórias - flexível! */
+    height: calc(100vh - 78px);
+}
+
+/* =============== Componente Reutilizável Glass ============= */
+.glass-panel {
+    background: var(--bg-color-glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    
+    border: 1px solid var(--border-glass);
+    /* Reflexos de luzes nas bordas superior e esquerda */
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    
+    border-radius: var(--borda-raio-lg);
+    box-shadow: var(--sombra-interna-brilho), var(--sombra-elegante);
+}
+
+/* =========================================
+   Toolbar Lateral
+   ========================================= */
+.toolbar {
+    width: 250px;
+    min-width: 250px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+/* =========================================
+   Botões Premium State Transitions
+   ========================================= */
+.toolbar-btn {
+    background: rgba(255,255,255, 0.03); /* Leve luminosidade */
+    color: var(--text-primary);
+    border: 1px solid var(--border-glass);
+    padding: 0.9rem 1.2rem;
+    border-radius: var(--borda-raio-md);
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-align: left; /* Ou center se preferir */
+    
+    /* Transição elegante em todas propriedades no hover */
+    transition: var(--transicao-suave);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Brilho que aparece ao interagir */
+.toolbar-btn::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    opacity: 0;
+    transition: var(--transicao-suave);
+}
+
+.toolbar-btn:hover {
+    transform: translateY(-3px) scale(1.02); /* Efeito reativo flutuante (scale up e offsetY) */
+    border-color: rgba(255,255,255, 0.2);
+    background: rgba(255,255,255, 0.08); /* Clareia para sinalizar foco */
+    /* Glow effect sutil vindo da borda */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 0 15px rgba(99, 102, 241, 0.2);
+}
+
+.toolbar-btn:hover::before { opacity: 1; }
+
+.toolbar-btn:active {
+    transform: translateY(1px) scale(0.98); /* Feedback de clique pressionado */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* =========================================
+   Área Principal do Canvas
+   ========================================= */
+.canvas-wrapper {
+    flex: 1; /* Domina o espaço total desocupado pela toolbar */
+    display: flex; /* Para os filhos esticarem */
+    overflow: hidden; 
+    position: relative;
+}
+
+.canvas {
+    width: 100%;
+    height: 100%;
+    /* Grid de pontos estilo matriz para o Canvas! */
+    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 1.5px, transparent 1.5px);
+    background-size: 25px 25px; /* Distância entre os pontinhos do Grid do NetGraph */
+}
+
+/* =========================================
+   Responsividade (Mobile & Tablets)
+   ========================================= */
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+    
+    .logo {
+        justify-content: center;
+        width: 100%;
+    }
+    
+    .menu ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+    
+    .app-container {
+        flex-direction: column;
+        padding: 1rem;
+        height: auto;
+        min-height: calc(100vh - 150px);
+    }
+    
+    .toolbar {
+        width: 100%;
+        min-width: unset;
+        flex-direction: row; /* Muda os botões para lado a lado */
+        padding: 1rem;
+        overflow-x: auto; /* Permite scroll horizontal dos botões */
+    }
+    
+    .toolbar-group {
+        flex-direction: row;
+        flex: 1;
+        gap: 1rem;
+    }
+    
+    .toolbar-btn {
+        flex: 0 0 auto; /* Evita que o botão encolha na rolagem horizontal */
+        white-space: nowrap;
+    }
+    
+    .canvas-wrapper {
+        min-height: 50vh; /* Garante tamanho suficiente do canvas no celular */
+    }
+}
