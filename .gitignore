@@ -3,3 +3,4 @@ venv/
 __pycache__/
 *.pcy
 .vscode
+lista_adj.json
