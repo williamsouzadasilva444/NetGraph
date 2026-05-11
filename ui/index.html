@@ -25,15 +25,16 @@
     <main class="app-container">
         <aside class="toolbar glass-panel">
             <div class="toolbar-group">
-                <button class="toolbar-btn">Botão 1</button>
-                <button class="toolbar-btn">Botão 2</button>
-                <button class="toolbar-btn">Botão 3</button>
+                <button id="btn-scan" class="toolbar-btn">Scan the Network</button>
+                <button id="btn-details" class="toolbar-btn">Show Graph details</button>
+                <button id="btn-export" class="toolbar-btn">Save and Export</button>
             </div>
         </aside>
-        
+            <div id="graph-container"></div>
         <section class="canvas-wrapper glass-panel">
             <div class="canvas" id="canvas"></div>
         </section>
+        <script src="script.js"></script>
     </main>
 </body>
 </html>
