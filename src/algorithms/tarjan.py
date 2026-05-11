@@ -1,7 +1,3 @@
-from ..core.conexoes import encontrar_gateway
-from ..core.lista_adjacente import lista_adjacente
-
-
 # Algoritmo principal Tarjan
 def dfs_tarjan(
     vertice_in, grafo, visitado, desc_temp, low, pais, pontes, articulacao, tempo
@@ -74,12 +70,12 @@ def dfs_tarjan(
 
 
 # Controlador do do algoritmo de Tarjan, ira inicializar todas as estruturas necessarias para realizar o algoritmo
-def control_tarjan():
-    # Obtendo gateway -> Vertice inicial para DFS
-    gw = encontrar_gateway()
+def control_tarjan(grafo):
+    if not grafo:
+        raise Exception("ERRO: O grafo esta vazio...")
 
-    # Obtendo grafo
-    grafo = lista_adjacente()
+    # Capturando a primeira chave/vertice do grafo, para ser o vertice inicial
+    vertice_in = next(iter(grafo))
 
     # Lista para manter os vertices visitados
     visitado = []
@@ -104,6 +100,8 @@ def control_tarjan():
     articulacao = []
 
     # Chamando o processo de DFS do Tarjan
-    dfs_tarjan(gw, grafo, visitado, desc_temp, low, pais, pontes, articulacao, tempo)
+    dfs_tarjan(
+        vertice_in, grafo, visitado, desc_temp, low, pais, pontes, articulacao, tempo
+    )
 
     return pontes, articulacao
