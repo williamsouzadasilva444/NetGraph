@@ -4,3 +4,4 @@ __pycache__/
 *.pcy
 .vscode
 lista_adj.json
+.pytest_cache/

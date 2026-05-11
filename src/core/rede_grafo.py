@@ -1,14 +1,9 @@
 import networkx as nx
 
-from .lista_adjacente import lista_adjacente
-
 # Obtem a lista de adjacencia para formar o grafo
-def montar_grafo():
+def montar_grafo(adj):
     # Grafo nao direcionado
     G = nx.Graph()
-    
-    # Obtendo lista de adjacencia
-    adj = lista_adjacente()
     
     # Para cada vertice dentro das chaves da lista_adjacente
     for vertice in adj.keys():
