@@ -1,5 +1,8 @@
-# NetGraph
-Desenvolvimento de um Mapeador de Redes de Computadores utilizando grafos e Nmap: Para Apresentação Visual de uma Rede de Computadores LAN, utilizando conceitos de Teoria dos Grafos como Vértices e Arestas de Corte e Centralidade para disponibilizar dados analíticos para Administradores e Analistas de Rede.
+# E3 — MVP: Núcleo Funcional com Primeiras Telas
+
+> **Disciplina:** Teoria dos Grafos  
+> **Prazo:** 10 de maio de 2026  
+> **Peso:** 25% da nota final  
 
 ---
 
@@ -175,13 +178,13 @@ NetGraph/
 
 ### Tela de Entrada
 
-![Tela de entrada](./src/assets/frontend_desenvolvimento.jpeg)
+![Tela de entrada]()
 
 *Descrição: Futura Tela de Entrada ainda em desenvolvimento, falta integracão de algoritmo*
 
 ### Tela de Resultado
 
-![Tela de resultado](./src/assets/resultado_cli.png)
+![Tela de resultado]()
 
 *Descrição: Tela de resultado provisório realizada em Terminal/CLI*
 

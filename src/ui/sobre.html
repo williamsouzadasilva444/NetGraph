@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="./image/logo-NetGraph.png" type="image/x-icon">
+    <title>NetGraph — Sobre</title>
+    <style>
+        .sobre-container {
+            flex: 1;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .sobre-card {
+            max-width: 860px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .sobre-header {
+            text-align: center;
+            padding: 2.5rem 2rem;
+        }
+
+        .sobre-header h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .sobre-header p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+        }
+
+        .accent { color: var(--accent-color); }
+
+        .sobre-section {
+            padding: 2rem;
+        }
+
+        .sobre-section h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .sobre-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 0.8rem 1rem;
+            background: rgba(99, 102, 241, 0.06);
+            border-radius: var(--borda-raio-md);
+            border-left: 2px solid var(--accent-color);
+        }
+
+        .step-num {
+            color: var(--accent-color);
+            font-weight: 600;
+            font-size: 0.9rem;
+            min-width: 24px;
+        }
+
+        .step p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .tech-item {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--borda-raio-md);
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .tech-item span {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .tech-item strong {
+            display: block;
+            color: var(--text-primary);
+            margin-bottom: 0.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .sobre-container { padding: 1rem; }
+            .sobre-header h1 { font-size: 1.6rem; }
+            .tech-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="logo">
+            <img src="./image/logo-NetGraph.png" alt="NetGraph">
+            <span class="logo-text">NetGraph</span>
+        </div>
+        <nav class="menu">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+                <li><a href="https://wa.me/5511983451970" target="_blank">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="sobre-container">
+        <div class="sobre-card">
+
+            <div class="sobre-header glass-panel">
+                <h1>Sobre o <span class="accent">NetGraph</span></h1>
+                <p>Visualização inteligente de redes locais com detecção de pontos críticos</p>
+            </div>
+
+            <div class="sobre-section glass-panel">
+                <h2>🔍 O que é o NetGraph?</h2>
+                <p>
+                    O NetGraph é uma ferramenta de análise e visualização de redes locais (LAN).
+                    Ele escaneia automaticamente os dispositivos conectados à sua rede, monta um grafo
+                    interativo das conexões e identifica pontos críticos de infraestrutura — ou seja,
+                    conexões cuja falha isolaria partes da rede.
+                </p>
+            </div>
+
+            <div class="sobre-section glass-panel">
+                <h2>⚙️ Como funciona?</h2>
+                <div class="steps">
+                    <div class="step">
+                        <span class="step-num">01</span>
+                        <p>O sistema detecta automaticamente a subnet da sua máquina e inicia um scan via <strong>Nmap</strong>, descobrindo todos os dispositivos ativos na rede.</p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">02</span>
+                        <p>Os dispositivos encontrados tornam-se <strong>vértices</strong> do grafo, e as conexões com o gateway tornam-se <strong>arestas</strong>.</p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">03</span>
+                        <p>O algoritmo de <strong>Tarjan</strong> percorre o grafo em busca de bridges (pontes) — arestas cuja remoção desconectaria partes da rede — e pontos de articulação.</p>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">04</span>
+                        <p>O resultado é exibido como um <strong>grafo interativo</strong>: nós em azul são hosts normais, o gateway aparece em roxo, e as bridges são destacadas em vermelho.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sobre-section glass-panel">
+                <h2>🛠️ Tecnologias utilizadas</h2>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <span>🐍</span>
+                        <strong>Python</strong>
+                        Back-end e lógica
+                    </div>
+                    <div class="tech-item">
+                        <span>🌐</span>
+                        <strong>Flask</strong>
+                        API REST
+                    </div>
+                    <div class="tech-item">
+                        <span>📡</span>
+                        <strong>Nmap</strong>
+                        Scan de rede
+                    </div>
+                    <div class="tech-item">
+                        <span>🕸️</span>
+                        <strong>PyVis</strong>
+                        Visualização do grafo
+                    </div>
+                    <div class="tech-item">
+                        <span>🔗</span>
+                        <strong>Scapy</strong>
+                        Detecção de gateway
+                    </div>
+                    <div class="tech-item">
+                        <span>📐</span>
+                        <strong>Tarjan</strong>
+                        Algoritmo de grafos
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>
