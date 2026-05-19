@@ -1,12 +1,4 @@
-from scapy.all import conf
-
-
-# Funcao para encontrar gateway do sistema, que normalmente sao
-# Roteadores ou tambem Switchs
-def encontrar_gateway():
-    gateway = conf.route.route("0.0.0.0")[2]
-
-    return gateway
+from ..io.scanner import encontrar_gateway
 
 
 # Definindo as arestas do grafo
