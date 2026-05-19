@@ -2,11 +2,12 @@ import os
 from pyvis.network import Network
 from src.algorithms.tarjan import control_tarjan
 from src.core.lista_adjacente import lista_adjacente
-from src.core.conexoes import encontrar_gateway
+from src.io.scanner import encontrar_gateway
 
 # Caminho relativo à raiz do projeto
-OUTPUT_PATH = os.path.join(os.path.dirname(
-    __file__), '..', '..', 'ui', 'static', 'grafo.html')
+OUTPUT_PATH = os.path.join(
+    os.path.dirname(__file__), "..", "..", "ui", "static", "grafo.html"
+)
 
 
 def build_graph(nodes: list = None):
@@ -27,11 +28,11 @@ def build_graph(nodes: list = None):
     pontes, articulacao = control_tarjan(adj)
 
     gateway = encontrar_gateway()
-    bridges = [{'from': u, 'to': v} for u, v in pontes]
+    bridges = [{"from": u, "to": v} for u, v in pontes]
 
     # Reconstrói lista de nós a partir do dicionário de adjacência
     all_ips = set(adj.keys())
-    nodes_list = [{'id': ip, 'label': ip} for ip in all_ips]
+    nodes_list = [{"id": ip, "label": ip} for ip in all_ips]
 
     grafo_obj = _GraphObj(adj, nodes_list, gateway, pontes, articulacao)
 
@@ -49,29 +50,29 @@ def gerar_visual(grafo_obj, bridges: list) -> str:
     os.makedirs(os.path.dirname(output), exist_ok=True)
 
     net = Network(
-        height='100%',
-        width='100%',
-        bgcolor='transparent',
-        font_color='#f3f4f6',
-        directed=False
+        height="100%",
+        width="100%",
+        bgcolor="transparent",
+        font_color="#f3f4f6",
+        directed=False,
     )
 
-    bridge_set = {frozenset([b['from'], b['to']]) for b in bridges}
+    bridge_set = {frozenset([b["from"], b["to"]]) for b in bridges}
 
     for node in grafo_obj.nodes:
-        is_gateway = (node['id'] == grafo_obj.gateway)
+        is_gateway = node["id"] == grafo_obj.gateway
         net.add_node(
-            node['id'],
-            label=node.get('label', node['id']),
+            node["id"],
+            label=node.get("label", node["id"]),
             title=(
                 f"<b>{node.get('label', node['id'])}</b><br>"
                 f"IP: {node['id']}<br>"
                 f"MAC: {node.get('mac', 'N/A')}<br>"
                 f"Vendor: {node.get('vendor', '?')}"
             ),
-            color='#6366F1' if is_gateway else '#22d3ee',
+            color="#6366F1" if is_gateway else "#22d3ee",
             size=30 if is_gateway else 18,
-            font={'size': 12, 'color': '#f3f4f6'}
+            font={"size": 12, "color": "#f3f4f6"},
         )
 
     adicionadas = set()
@@ -83,10 +84,11 @@ def gerar_visual(grafo_obj, bridges: list) -> str:
             adicionadas.add(aresta)
             is_bridge = aresta in bridge_set
             net.add_edge(
-                u, v,
-                color='#ef4444' if is_bridge else 'rgba(255,255,255,0.18)',
+                u,
+                v,
+                color="#ef4444" if is_bridge else "rgba(255,255,255,0.18)",
                 width=3 if is_bridge else 1.5,
-                title='⚠️ Bridge — ponto crítico' if is_bridge else ''
+                title="⚠️ Bridge — ponto crítico" if is_bridge else "",
             )
 
     net.set_options("""
