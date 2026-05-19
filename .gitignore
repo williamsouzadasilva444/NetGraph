@@ -1,13 +1,8 @@
-<<<<<<< HEAD
 __pycache__/
 *.pyc
 *.pyo
-=======
 venv/
 .git/
-__pycache__/
-*.pcy
 .vscode
 lista_adj.json
 .pytest_cache/
->>>>>>> 4b9d480a3426370c6d179abc23ec8927a4f7a03c
