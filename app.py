@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request, send_file, render_template
 from flask_cors import CORS
-from src.core.graph import build_graph, gerar_visual
+from src.core.grafo import build_graph, gerar_visual
 import os
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))

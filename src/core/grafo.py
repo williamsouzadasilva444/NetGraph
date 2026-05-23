@@ -1,5 +1,7 @@
 import os
+
 from pyvis.network import Network
+
 from src.algorithms.tarjan import control_tarjan
 from src.core.lista_adjacente import lista_adjacente
 from src.io.scanner import encontrar_gateway
