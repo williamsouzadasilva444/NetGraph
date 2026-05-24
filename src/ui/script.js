@@ -82,3 +82,84 @@ document.querySelector('#btn-scan').addEventListener('click', async () => {
         setBtnLoading('#btn-scan', false, 'Scan the Network');
     }
 });
+
+// funcao para exibir detalhes do grafo no html
+function fillPanel(details) {
+    // obtendo id de cada campo
+    const deviceList = document.getElementById("device-list");
+
+    const articulations = document.getElementById("articulation-points");
+
+    const bridges = document.getElementById("bridges");
+
+    const centrality = document.getElementById("centrality");
+
+    // limpando cada campo dos detalhes
+    deviceList.innerHTML = "";
+    articulations.innerHTML = "";
+    bridges.innerHTML = "";
+    centrality.innerHTML = "";
+
+    // exibindo cada dispositivo
+    for (const ip of details.ips) {
+        const li = document.createElement("li");
+
+        li.textContent = ip;
+
+        deviceList.appendChild(li);
+    };
+
+    // exibindo cada ponto de articulacao
+    for (const ip of details.articulacoes) {
+        const li = document.createElement("li");
+
+        li.textContent = ip;
+
+        articulations.appendChild(li);
+    };
+
+    // exibindo cada ponte
+    for (const ponte of details.pontes) {
+        const li = document.createElement("li");
+
+        li.textContent = `${ponte[0]} ↔ ${ponte[1]}`;
+
+        bridges.appendChild(li);
+    };
+
+    // exibindo no central
+    centrality.textContent = details.central;
+}
+
+// funcao para resgatar detalhes do grafo
+async function loadDetails() {
+    try {
+        const answer = await fetch("/network-details");
+    
+        const details = await answer.json();
+
+        fillPanel(details)
+
+    } catch(erro) {
+        console.error(erro);
+    }
+}
+
+// mostrar detalhes do grafo
+const showBtn = document.getElementById("btn-details");
+
+const closeBtn = document.getElementById("close-panel-btn");
+
+const panel = document.getElementById("network-details-panel");
+
+// metodo para exibir detalhes no botao btn-details
+showBtn.addEventListener("click", async() => {
+    await loadDetails();
+
+    panel.classList.remove("hidden");
+});
+
+// fechar detalhes ao clicar no botao close-panel-btn
+closeBtn.addEventListener("click", () => {
+    panel.classList.add("hidden");
+});

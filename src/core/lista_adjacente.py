@@ -1,16 +1,9 @@
 import json
 
-from ..io import scanner
 from ..core import conexoes
 
 
-def definir_dispositivos():
-    ip = scanner.descobrir_ip()
-    return scanner.mapear_rede(ip)
-
-
-def lista_adjacente():
-    vertices = definir_dispositivos()
+def lista_adjacente(vertices):
     arestas = conexoes.definir_conexoes(vertices)
 
     adj = {}

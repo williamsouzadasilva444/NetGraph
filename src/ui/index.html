@@ -25,14 +25,55 @@
     <main class="app-container">
         <aside class="toolbar glass-panel">
             <div class="toolbar-group">
-                <button id="btn-scan" class="toolbar-btn">Scan the Network</button>
-                <button id="btn-details" class="toolbar-btn">Show Graph details</button>
-                <button id="btn-export" class="toolbar-btn">Save and Export</button>
+                <button id="btn-scan" class="toolbar-btn">Scanear Rede</button>
+                <button id="btn-details" class="toolbar-btn">Detalhes da Rede</button>
+                <button id="btn-export" class="toolbar-btn">Salvar e Exportar</button>
             </div>
         </aside>
-            <div id="graph-container"></div>
+            
         <section class="canvas-wrapper glass-panel">
+            <div id="graph-container"></div>
+
             <div class="canvas" id="canvas"></div>
+
+            <aside id="network-details-panel" class="details-panel hidden">
+
+
+
+                <!-- Codigo novo, tirar se precisar -->
+                <div class="details-header">
+                    <h2>Detalhes da Rede</h2>
+
+                    <button id="close-panel-btn">X</button>
+                </div>
+
+                <div class="details-content">    
+                    <div class="detail-card">
+                        <h3>Dispositivos Encontrados</h3>
+
+                        <ul id="device-list">
+                            <li>Nenhum dispositivo encontrado</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Dispositivos Críticos</h3>
+
+                    <p id="articulation-points">Nenhum dispositivo crítico</p>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Conexões Críticas</h3>
+
+                    <p id="bridges">Nenhuma conexão crítica</p>
+                </div>
+
+                <div class="detail-card">
+                    <h3>Dispositivo Central</h3>
+                    <p id="centrality"> Nenhum dispositivo central</p>
+                </div>
+            
         </section>
         <script src="script.js"></script>
     </main>

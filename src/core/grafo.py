@@ -12,20 +12,28 @@ OUTPUT_PATH = os.path.join(
 )
 
 
-def build_graph(nodes: list = None):
-    adj = lista_adjacente()
+def build_graph(dispositivos):
+    adj = lista_adjacente(dispositivos)
+
     if not adj:
         raise Exception("Nenhum dispositivo encontrado na rede.")
+
     pontes, articulacao = control_tarjan(adj)
+
     gateway = encontrar_gateway()
+
     bridges = [{"from": u, "to": v} for u, v in pontes]
+
     all_ips = set(adj.keys())
+
     nodes_list = [{"id": ip, "label": ip} for ip in all_ips]
+
     grafo_obj = _GraphObj(adj, nodes_list, gateway, pontes, articulacao)
+
     return grafo_obj, bridges
 
 
-def gerar_visual(grafo_obj, bridges: list) -> str:
+def gerar_visual(grafo_obj, dispositivos, bridges: list) -> str:
     output = os.path.abspath(OUTPUT_PATH)
     os.makedirs(os.path.dirname(output), exist_ok=True)
 
@@ -45,10 +53,11 @@ def gerar_visual(grafo_obj, bridges: list) -> str:
             node["id"],
             label=node.get("label", node["id"]),
             title=(
-                f"<b style='color:{'#818cf8' if is_gateway else '#67e8f9'}'>{node['id']}</b><br>"
-                f"<span style='color:#9ca3af'>MAC:</span> {node.get('mac', 'N/A')}<br>"
-                f"<span style='color:#9ca3af'>Vendor:</span> {node.get('vendor', '?')}<br>"
-                f"<span style='color:#9ca3af'>Status:</span> <span style='color:#22d3ee'>● UP</span>"
+                f"{dispositivos[node['id']]['IP']}\n"
+                f"Status: {dispositivos[node['id']]['status']}\n"
+                f"Tipo: {dispositivos[node['id']]['tipo']}\n"
+                f"MAC: {dispositivos[node['id']]['MAC']}\n"
+                f"Vendor: {dispositivos[node['id']]['vendor']}\n"
             ),
             color={
                 "background": "#6366F1" if is_gateway else "#22d3ee",
@@ -81,12 +90,7 @@ def gerar_visual(grafo_obj, bridges: list) -> str:
                 },
                 width=2.5 if is_bridge else 1.5,
                 dashes=[6, 4] if is_bridge else False,
-                title=(
-                    "<span style='color:#ef4444'>⚠️ Bridge crítica</span><br>"
-                    "<span style='color:#9ca3af;font-size:11px'>Remoção isola segmento da rede</span>"
-                )
-                if is_bridge
-                else "",
+                title=("⚠️ Bridge crítca") if is_bridge else "",
             )
 
     net.set_options("""
