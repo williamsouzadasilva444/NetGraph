@@ -46,7 +46,56 @@
 
              
         </style>
-    </head>
+    
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: transparent !important;
+    overflow: hidden;
+  }
+
+  /* Remove card branco do Bootstrap */
+  .card {
+    width: 100% !important;
+    height: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Grafo ocupa 100% do espaço */
+  #mynetwork {
+    width: 100% !important;
+    height: 100vh !important;
+    background: transparent !important;
+    border: none !important;
+    position: absolute !important;
+    top: 0; left: 0;
+  }
+
+  /* Tooltip estilizado */
+  .vis-tooltip {
+    background: rgba(10, 13, 25, 0.95) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-radius: 10px !important;
+    color: #f3f4f6 !important;
+    font-family: Inter, sans-serif !important;
+    font-size: 12px !important;
+    padding: 10px 14px !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Remove títulos vazios gerados pelo PyVis */
+  center, h1 { display: none !important; }
+</style>
+</head>
 
 
     <body>
@@ -88,8 +137,8 @@
                   
 
                   // parsing and collecting nodes and edges from the python
-                  nodes = new vis.DataSet([{"color": "#22d3ee", "font": {"color": "#f3f4f6"}, "id": "192.168.15.10", "label": "192.168.15.10", "shape": "dot", "size": 18, "title": "\u003cb\u003e192.168.15.10\u003c/b\u003e\u003cbr\u003eIP: 192.168.15.10\u003cbr\u003eMAC: N/A\u003cbr\u003eVendor: ?"}, {"color": "#22d3ee", "font": {"color": "#f3f4f6"}, "id": "192.168.15.2", "label": "192.168.15.2", "shape": "dot", "size": 18, "title": "\u003cb\u003e192.168.15.2\u003c/b\u003e\u003cbr\u003eIP: 192.168.15.2\u003cbr\u003eMAC: N/A\u003cbr\u003eVendor: ?"}, {"color": "#6366F1", "font": {"color": "#f3f4f6"}, "id": "192.168.15.1", "label": "192.168.15.1", "shape": "dot", "size": 30, "title": "\u003cb\u003e192.168.15.1\u003c/b\u003e\u003cbr\u003eIP: 192.168.15.1\u003cbr\u003eMAC: N/A\u003cbr\u003eVendor: ?"}, {"color": "#22d3ee", "font": {"color": "#f3f4f6"}, "id": "192.168.15.6", "label": "192.168.15.6", "shape": "dot", "size": 18, "title": "\u003cb\u003e192.168.15.6\u003c/b\u003e\u003cbr\u003eIP: 192.168.15.6\u003cbr\u003eMAC: N/A\u003cbr\u003eVendor: ?"}, {"color": "#22d3ee", "font": {"color": "#f3f4f6"}, "id": "192.168.15.8", "label": "192.168.15.8", "shape": "dot", "size": 18, "title": "\u003cb\u003e192.168.15.8\u003c/b\u003e\u003cbr\u003eIP: 192.168.15.8\u003cbr\u003eMAC: N/A\u003cbr\u003eVendor: ?"}, {"color": "#22d3ee", "font": {"color": "#f3f4f6"}, "id": "192.168.15.3", "label": "192.168.15.3", "shape": "dot", "size": 18, "title": "\u003cb\u003e192.168.15.3\u003c/b\u003e\u003cbr\u003eIP: 192.168.15.3\u003cbr\u003eMAC: N/A\u003cbr\u003eVendor: ?"}]);
-                  edges = new vis.DataSet([{"color": "#ef4444", "from": "192.168.15.1", "title": "\u26a0\ufe0f Bridge \u2014 ponto cr\u00edtico", "to": "192.168.15.10", "width": 3}, {"color": "#ef4444", "from": "192.168.15.1", "title": "\u26a0\ufe0f Bridge \u2014 ponto cr\u00edtico", "to": "192.168.15.2", "width": 3}, {"color": "#ef4444", "from": "192.168.15.1", "title": "\u26a0\ufe0f Bridge \u2014 ponto cr\u00edtico", "to": "192.168.15.3", "width": 3}, {"color": "#ef4444", "from": "192.168.15.1", "title": "\u26a0\ufe0f Bridge \u2014 ponto cr\u00edtico", "to": "192.168.15.6", "width": 3}, {"color": "#ef4444", "from": "192.168.15.1", "title": "\u26a0\ufe0f Bridge \u2014 ponto cr\u00edtico", "to": "192.168.15.8", "width": 3}]);
+                  nodes = new vis.DataSet([{"borderWidth": 2, "color": {"background": "#22d3ee", "border": "#67e8f9", "highlight": {"background": "#0891b2", "border": "#a5f3fc"}}, "font": {"color": "#f3f4f6"}, "id": "192.168.15.3", "label": "192.168.15.3", "shape": "dot", "size": 16, "title": "\u003cb style=\u0027color:#67e8f9\u0027\u003e192.168.15.3\u003c/b\u003e\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eMAC:\u003c/span\u003e N/A\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eVendor:\u003c/span\u003e ?\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eStatus:\u003c/span\u003e \u003cspan style=\u0027color:#22d3ee\u0027\u003e\u25cf UP\u003c/span\u003e"}, {"borderWidth": 2, "color": {"background": "#6366F1", "border": "#818cf8", "highlight": {"background": "#4f46e5", "border": "#a5b4fc"}}, "font": {"color": "#f3f4f6"}, "id": "192.168.15.1", "label": "192.168.15.1", "shape": "dot", "size": 30, "title": "\u003cb style=\u0027color:#818cf8\u0027\u003e192.168.15.1\u003c/b\u003e\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eMAC:\u003c/span\u003e N/A\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eVendor:\u003c/span\u003e ?\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eStatus:\u003c/span\u003e \u003cspan style=\u0027color:#22d3ee\u0027\u003e\u25cf UP\u003c/span\u003e"}, {"borderWidth": 2, "color": {"background": "#22d3ee", "border": "#67e8f9", "highlight": {"background": "#0891b2", "border": "#a5f3fc"}}, "font": {"color": "#f3f4f6"}, "id": "192.168.15.5", "label": "192.168.15.5", "shape": "dot", "size": 16, "title": "\u003cb style=\u0027color:#67e8f9\u0027\u003e192.168.15.5\u003c/b\u003e\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eMAC:\u003c/span\u003e N/A\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eVendor:\u003c/span\u003e ?\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eStatus:\u003c/span\u003e \u003cspan style=\u0027color:#22d3ee\u0027\u003e\u25cf UP\u003c/span\u003e"}, {"borderWidth": 2, "color": {"background": "#22d3ee", "border": "#67e8f9", "highlight": {"background": "#0891b2", "border": "#a5f3fc"}}, "font": {"color": "#f3f4f6"}, "id": "192.168.15.10", "label": "192.168.15.10", "shape": "dot", "size": 16, "title": "\u003cb style=\u0027color:#67e8f9\u0027\u003e192.168.15.10\u003c/b\u003e\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eMAC:\u003c/span\u003e N/A\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eVendor:\u003c/span\u003e ?\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eStatus:\u003c/span\u003e \u003cspan style=\u0027color:#22d3ee\u0027\u003e\u25cf UP\u003c/span\u003e"}, {"borderWidth": 2, "color": {"background": "#22d3ee", "border": "#67e8f9", "highlight": {"background": "#0891b2", "border": "#a5f3fc"}}, "font": {"color": "#f3f4f6"}, "id": "192.168.15.2", "label": "192.168.15.2", "shape": "dot", "size": 16, "title": "\u003cb style=\u0027color:#67e8f9\u0027\u003e192.168.15.2\u003c/b\u003e\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eMAC:\u003c/span\u003e N/A\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eVendor:\u003c/span\u003e ?\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af\u0027\u003eStatus:\u003c/span\u003e \u003cspan style=\u0027color:#22d3ee\u0027\u003e\u25cf UP\u003c/span\u003e"}]);
+                  edges = new vis.DataSet([{"color": {"color": "#ef4444", "highlight": "#ef4444"}, "dashes": [6, 4], "from": "192.168.15.1", "title": "\u003cspan style=\u0027color:#ef4444\u0027\u003e\u26a0\ufe0f Bridge cr\u00edtica\u003c/span\u003e\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af;font-size:11px\u0027\u003eRemo\u00e7\u00e3o isola segmento da rede\u003c/span\u003e", "to": "192.168.15.10", "width": 2.5}, {"color": {"color": "#ef4444", "highlight": "#ef4444"}, "dashes": [6, 4], "from": "192.168.15.1", "title": "\u003cspan style=\u0027color:#ef4444\u0027\u003e\u26a0\ufe0f Bridge cr\u00edtica\u003c/span\u003e\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af;font-size:11px\u0027\u003eRemo\u00e7\u00e3o isola segmento da rede\u003c/span\u003e", "to": "192.168.15.2", "width": 2.5}, {"color": {"color": "#ef4444", "highlight": "#ef4444"}, "dashes": [6, 4], "from": "192.168.15.1", "title": "\u003cspan style=\u0027color:#ef4444\u0027\u003e\u26a0\ufe0f Bridge cr\u00edtica\u003c/span\u003e\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af;font-size:11px\u0027\u003eRemo\u00e7\u00e3o isola segmento da rede\u003c/span\u003e", "to": "192.168.15.3", "width": 2.5}, {"color": {"color": "#ef4444", "highlight": "#ef4444"}, "dashes": [6, 4], "from": "192.168.15.1", "title": "\u003cspan style=\u0027color:#ef4444\u0027\u003e\u26a0\ufe0f Bridge cr\u00edtica\u003c/span\u003e\u003cbr\u003e\u003cspan style=\u0027color:#9ca3af;font-size:11px\u0027\u003eRemo\u00e7\u00e3o isola segmento da rede\u003c/span\u003e", "to": "192.168.15.5", "width": 2.5}]);
 
                   nodeColors = {};
                   allNodes = nodes.get({ returnType: "Object" });
@@ -100,7 +149,7 @@
                   // adding nodes and edges to the graph
                   data = {nodes: nodes, edges: edges};
 
-                  var options = {"physics": {"barnesHut": {"gravitationalConstant": -8000, "centralGravity": 0.3, "springLength": 130}, "stabilization": {"iterations": 200}}, "interaction": {"hover": true, "tooltipDelay": 80}};
+                  var options = {"physics": {"barnesHut": {"gravitationalConstant": -9000, "centralGravity": 0.25, "springLength": 140, "springConstant": 0.04, "damping": 0.09}, "stabilization": {"iterations": 250}}, "interaction": {"hover": true, "tooltipDelay": 60, "navigationButtons": false, "keyboard": false}};
 
                   
 

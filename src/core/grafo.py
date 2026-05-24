@@ -1,53 +1,31 @@
 import os
-
 from pyvis.network import Network
 
 from src.algorithms.tarjan import control_tarjan
+
 from src.core.lista_adjacente import lista_adjacente
+
 from src.io.scanner import encontrar_gateway
 
-# Caminho relativo à raiz do projeto
 OUTPUT_PATH = os.path.join(
-    os.path.dirname(__file__), "..", "..", "ui", "static", "grafo.html"
+    os.path.dirname(__file__), "..", "ui", "static", "grafo.html"
 )
 
 
 def build_graph(nodes: list = None):
-    """
-    Constrói o grafo usando os módulos existentes do projeto.
-    - conexoes.py  → detecta o gateway real via scapy
-    - lista_adjacente.py → monta o dicionário de adjacência
-    - tarjan.py    → encontra pontes e pontos de articulação
-
-    O parâmetro `nodes` é aceito por compatibilidade com o app.py,
-    mas a lista de adjacência é montada internamente pelos módulos.
-    """
     adj = lista_adjacente()
-
     if not adj:
         raise Exception("Nenhum dispositivo encontrado na rede.")
-
     pontes, articulacao = control_tarjan(adj)
-
     gateway = encontrar_gateway()
     bridges = [{"from": u, "to": v} for u, v in pontes]
-
-    # Reconstrói lista de nós a partir do dicionário de adjacência
     all_ips = set(adj.keys())
     nodes_list = [{"id": ip, "label": ip} for ip in all_ips]
-
     grafo_obj = _GraphObj(adj, nodes_list, gateway, pontes, articulacao)
-
     return grafo_obj, bridges
 
 
 def gerar_visual(grafo_obj, bridges: list) -> str:
-    """
-    Gera o HTML interativo com PyVis em ui/static/grafo.html.
-    - Gateway: índigo (#6366F1), tamanho maior
-    - Hosts:   ciano (#22d3ee)
-    - Bridges: arestas em vermelho (#ef4444)
-    """
     output = os.path.abspath(OUTPUT_PATH)
     os.makedirs(os.path.dirname(output), exist_ok=True)
 
@@ -67,14 +45,23 @@ def gerar_visual(grafo_obj, bridges: list) -> str:
             node["id"],
             label=node.get("label", node["id"]),
             title=(
-                f"<b>{node.get('label', node['id'])}</b><br>"
-                f"IP: {node['id']}<br>"
-                f"MAC: {node.get('mac', 'N/A')}<br>"
-                f"Vendor: {node.get('vendor', '?')}"
+                f"<b style='color:{'#818cf8' if is_gateway else '#67e8f9'}'>{node['id']}</b><br>"
+                f"<span style='color:#9ca3af'>MAC:</span> {node.get('mac', 'N/A')}<br>"
+                f"<span style='color:#9ca3af'>Vendor:</span> {node.get('vendor', '?')}<br>"
+                f"<span style='color:#9ca3af'>Status:</span> <span style='color:#22d3ee'>● UP</span>"
             ),
-            color="#6366F1" if is_gateway else "#22d3ee",
-            size=30 if is_gateway else 18,
-            font={"size": 12, "color": "#f3f4f6"},
+            color={
+                "background": "#6366F1" if is_gateway else "#22d3ee",
+                "border": "#818cf8" if is_gateway else "#67e8f9",
+                "highlight": {
+                    "background": "#4f46e5" if is_gateway else "#0891b2",
+                    "border": "#a5b4fc" if is_gateway else "#a5f3fc",
+                },
+            },
+            size=30 if is_gateway else 16,
+            shape="dot",
+            font={"size": 11, "color": "#9ca3af", "face": "Inter, sans-serif"},
+            borderWidth=2,
         )
 
     adicionadas = set()
@@ -88,32 +75,107 @@ def gerar_visual(grafo_obj, bridges: list) -> str:
             net.add_edge(
                 u,
                 v,
-                color="#ef4444" if is_bridge else "rgba(255,255,255,0.18)",
-                width=3 if is_bridge else 1.5,
-                title="⚠️ Bridge — ponto crítico" if is_bridge else "",
+                color={
+                    "color": "#ef4444" if is_bridge else "rgba(255,255,255,0.15)",
+                    "highlight": "#ef4444" if is_bridge else "rgba(255,255,255,0.4)",
+                },
+                width=2.5 if is_bridge else 1.5,
+                dashes=[6, 4] if is_bridge else False,
+                title=(
+                    "<span style='color:#ef4444'>⚠️ Bridge crítica</span><br>"
+                    "<span style='color:#9ca3af;font-size:11px'>Remoção isola segmento da rede</span>"
+                )
+                if is_bridge
+                else "",
             )
 
     net.set_options("""
     {
       "physics": {
         "barnesHut": {
-          "gravitationalConstant": -8000,
-          "centralGravity": 0.3,
-          "springLength": 130
+          "gravitationalConstant": -9000,
+          "centralGravity": 0.25,
+          "springLength": 140,
+          "springConstant": 0.04,
+          "damping": 0.09
         },
-        "stabilization": { "iterations": 200 }
+        "stabilization": { "iterations": 250 }
       },
-      "interaction": { "hover": true, "tooltipDelay": 80 }
+      "interaction": {
+        "hover": true,
+        "tooltipDelay": 60,
+        "navigationButtons": false,
+        "keyboard": false
+      }
     }
     """)
 
     net.save_graph(output)
+
+    # ── Injeta CSS para corrigir fundo, altura e estilo ──────────────────────
+    with open(output, "r", encoding="utf-8") as f:
+        html = f.read()
+
+    css = """
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    background: transparent !important;
+    overflow: hidden;
+  }
+
+  /* Remove card branco do Bootstrap */
+  .card {
+    width: 100% !important;
+    height: 100% !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+  }
+
+  /* Grafo ocupa 100% do espaço */
+  #mynetwork {
+    width: 100% !important;
+    height: 100vh !important;
+    background: transparent !important;
+    border: none !important;
+    position: absolute !important;
+    top: 0; left: 0;
+  }
+
+  /* Tooltip estilizado */
+  .vis-tooltip {
+    background: rgba(10, 13, 25, 0.95) !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-radius: 10px !important;
+    color: #f3f4f6 !important;
+    font-family: Inter, sans-serif !important;
+    font-size: 12px !important;
+    padding: 10px 14px !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Remove títulos vazios gerados pelo PyVis */
+  center, h1 { display: none !important; }
+</style>
+"""
+
+    html = html.replace("</head>", css + "</head>")
+
+    with open(output, "w", encoding="utf-8") as f:
+        f.write(html)
+
     return output
 
 
 class _GraphObj:
-    """Objeto que expõe a interface esperada pelo app.py."""
-
     def __init__(self, adjacencia, nodes, gateway, pontes, articulacao):
         self.adjacencia = adjacencia
         self.nodes = nodes
