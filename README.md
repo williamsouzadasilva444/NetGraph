@@ -17,7 +17,7 @@ Desenvolvimento de um Mapeador de Redes de Computadores utilizando grafos e Nmap
 
 ## 1. Como Executar o MVP
 
-> Instrua como rodar o projeto do zero. Alguém que nunca viu o código deve conseguir executar seguindo estas instruções.
+> O projeto esta instavel e nao robusto o suficiente para funcionar em qualquer computador, por favor, não utilize o NetGraph em redes compartilhadas. Se você possui algum VPN, considere desativar a interface dele para testes mais precisos.
 
 **Pré-requisitos:**
 
@@ -36,7 +36,7 @@ pip install -r requirements.txt
 **Execução:**
 
 ```bash
-python -m src.main
+python app.py
 ```
 
 **Saída esperada:**
@@ -44,20 +44,15 @@ python -m src.main
 ```
 Censurando IPs por segurança, projeto deve exibir o IPv4 local dos dispositivos conectados da sua rede:
 
-Bem vindo ao NetGraph CLI:
+ * Serving Flask app 'app'
+ * Debug mode: on
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on http://127.0.0.1:5000
+Press CTRL+C to quit
+ * Restarting with stat
 Varrendo a rede XXX.XXX.XXX.0/24... (Isso pode demorar alguns segundos)
-Rede scaneada! Vamos encontrar dispositivos e conexoes criticas
-Caso essas conexoes sejam cortadas, irao desconectar certos dispositivos da rede
-Conexao Critica: ('XXX.XXX.XXX.1', 'XXX.XXX.XX.2')
-Conexao Critica: ('XXX.XXX.XXX.1', 'XXX.XXX.XXX.3')
-Conexao Critica: ('XXX.XXX.XXX.1', 'XXX.XXX.XXX.4')
-Conexao Critica: ('XXX.XXX.XXX.1', 'XXX.XXX.XXX.5')
-Conexao Critica: ('XXX.XXX.XXX.1', 'XXX.XXX.XXX.6')
-Caso esse dispositivo seja desconectado, toda rede cai
-Dispositivo Critico: XXX.XXX.XXX.1
-Exibindo sua rede local...
-Feche a janela para sair do programa
-Saindo...Obrigado por testar o NetGraph...
+ * Debugger is active!
+ * Debugger PIN: 110-651-048
 ```
 
 ---
@@ -138,16 +133,22 @@ NetGraph/
 │   ├── core/
 |   ├── ├── conexoes.py
 |   |   ├── lista_adjacente.py
-|   |   └── rede_grafo.py
+|   |   ├── grafo.py
+|   |   └── nx_grafo.py
 │   ├── algorithms/
-|   |   └── tarjan.py
+|   |   ├── tarjan.py
+|   |   └── centralidade.py
 │   ├── io/
 |   |   └── scanner.py
 |   ├── ui/
-|   ├── ├── image
+|   |   ├── image/
+|   |   ├── static/
+|   |   |   └── grafo.html
 |   |   ├── index.html
-|   |   └── style.css
-│   └── main.py
+|   |   ├── script.js
+|   |   ├── style.css
+|   |   └── sobre.html
+|   ├── assets/
 ├── tests/
 │   └── test_tarjan.py
 ├── data/
@@ -175,15 +176,15 @@ NetGraph/
 
 ### Tela de Entrada
 
-![Tela de entrada](./src/assets/frontend_desenvolvimento.jpeg)
+![Tela de entrada](./src/assets/Interface_NetGraph.png)
 
-*Descrição: Futura Tela de Entrada ainda em desenvolvimento, falta integracão de algoritmo*
+*Descrição: Interface do Netgraph, onde será feito o scan e o algoritmo de tarjan será aplicado, detalhes do grafo irá apresentar o IPS scaneados, pontes, vértice de corte e vértice mais central*
 
 ### Tela de Resultado
 
-![Tela de resultado](./src/assets/resultado_cli.png)
+![Tela de resultado](./src/assets/Resultado_NetGraph.png)
 
-*Descrição: Tela de resultado provisório realizada em Terminal/CLI*
+*Descrição: Tela de resultado netgraph*
 
 ---
 
@@ -224,6 +225,10 @@ tests/test_tarjan.py::test_grafo_completo PASSED [100%]
 | `ba9e9cc` | feat: implementando construcao do grafo por meio de uma lista de adjacencia | Matheus(Mazzo) |
 | `853599d` | feat: implementando algoritmo principal: Tarjan | Matheus(Mazzo) |
 | `26559ee` | test: adicionando testes unitarios | Matheus(Mazzo) |
+| `66ff9c4` | feat: atualizando o design e o flask netgraph | William |
+| `bdc21f6` | feat: implementando calculo de centralidade via networkx | Matheus (Mazzo) |
+| `b013411` | fix: atualizando visualização via web | William e Matheus (Mazzo) |
+| `09d800c` | feat: adicionando detalhes do grafo + ajustes finais | Matheus (Mazzo) |
 
 ---
 
@@ -231,15 +236,13 @@ tests/test_tarjan.py::test_grafo_completo PASSED [100%]
 
 | Funcionalidade | Status | Observação |
 |---------------|--------|------------|
-| Mapear estrutura de rede via nmap | ✅ Completo | Capturamos informacoes a mais que que o IP, mas ainda nao utilizamos, precisamos usar bibliotecas fixas (Scapy e ipaddress) para capturar IP e calcular Subnet |
-| Algoritmo principal | ✅ Completo | Algoritmo nao aplicado ainda no frontend |
-| Leitura de arquivo | 🔄 Parcial | Apenas pelo fluxo normal, via scan, sem leitura de arquivo JSON  |
-| Tela de entrada | 🔄 Parcial | Frontend completo, mas sem integracao com codigo/backend, apenas com CLI |
-| Tela de resultado | 🔄 Parcial | Frontend completo, mas sem integracao com codigo/backend, apenas com CLI |
+| Mapear estrutura de rede via nmap | ✅ Completo | Capturamos todas as informações necessários de forma que consiga indentificar o subnet e rede do usuário automaticamente |
+| Algoritmo principal | ✅ Completo | Sem observação |
+| Tela de entrada | ✅ Completo | Frontend funcionando |
+| Tela de resultado | ✅ Completo | Resultados corretos de acordo com a rede do usuário, pode variar |
 | Testes unitários | ✅ Completo | Sem observacao |
-| Calcular centralidade | ❌ Incompleto | Sem observacao |
-| Calcular HOPS com BFS | ❌ Incompleto | Sem observacao |
-| Detectar componentes conectados com BFS | ❌ Incompleto | Sem observacao |
+| Calcular centralidade | ✅ Completo | Centralidade aplicada utilizando NetworkX |
+| Leitura de arquivo | ❌ Incompleto | Nenhuma leitura de arquivo foi implementada, a não ser via scan automático  |
 
 ---
 
