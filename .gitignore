@@ -6,3 +6,4 @@ venv/
 .vscode
 lista_adj.json
 .pytest_cache/
+src/ui/static/grafo.html
